@@ -540,7 +540,7 @@ async function submitSI(){
 
 function applyResult(r){
   const chords=(r.chords||[]).map(c=>({name:c.name,type:c.type||getType(c.name),ts:c.ts||'0:00',bars:c.bars||1}));
-  const lyrics=(r.lyrics||[]).map(s=>({sec:s.sec||'Vers',lines:(s.lines||[]).map(l=>({text:l.text||'',cs:(l.chords||[]).map(ci=>({c:ci.c,w:ci.w||0}))}))}));
+  const lyrics=(Array.isArray(r.lyrics)?r.lyrics:[]).map(s=>({sec:s.sec||'Vers',lines:(s.lines||[]).map(l=>({text:l.text||'',cs:(l.chords||[]).map(ci=>({c:ci.c,w:ci.w||0}))}))}));
   song={name:r.title||currentFile?.name.replace(/\.[^/.]+$/,'')||'Ukjent',artist:r.artist||'',key:r.key||'C',bpm:parseInt(r.bpm)||120,time:r.time_signature||'4/4',capo:r.capo||0,genre:r.genre||'',mood:r.mood||'',energy:r.energy||'',instruments:r.instruments||[],structure:r.structure||[],chords,lyrics,guitar_tabs:r.guitar_tabs||buildGT(chords),bass_tabs:r.bass_tabs||buildBT(chords),chord_progression:r.chord_progression||'',analysis:r.analysis||''};
   renderAll();addToHistory(song);
 }
